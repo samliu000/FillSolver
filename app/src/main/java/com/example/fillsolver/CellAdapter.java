@@ -9,18 +9,18 @@ import android.widget.TextView;
 public class CellAdapter extends BaseAdapter {
 
     private final Context mContext;
-    private final int[] books;
+    private final int[] cells;
 
     // 1
-    public CellAdapter(Context context, int[] books) {
+    public CellAdapter(Context context, int[] cells) {
         this.mContext = context;
-        this.books = books;
+        this.cells = cells;
     }
 
     // 2
     @Override
     public int getCount() {
-        return books.length;
+        return cells.length;
     }
 
     // 3

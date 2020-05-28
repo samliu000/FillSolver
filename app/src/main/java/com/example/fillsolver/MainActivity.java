@@ -1,9 +1,10 @@
 package com.example.fillsolver;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.widget.GridView;
+import androidx.gridlayout.widget.GridLayout;
 
 import android.os.Bundle;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,9 +12,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        GridView gridView = (GridView)findViewById(R.id.GameGrid);
+        GridLayout gridView = (GridLayout)findViewById(R.id.GameGrid);
         int[] testInput = new int[48];
         CellAdapter booksAdapter = new CellAdapter(this, testInput);
-        gridView.setAdapter(booksAdapter);
+        for(int i = 0; i < 4; i++) {
+            Button hi = (Button)gridView.getChildAt(i);
+            hi.setText("Changed!");
+        }
     }
 }
