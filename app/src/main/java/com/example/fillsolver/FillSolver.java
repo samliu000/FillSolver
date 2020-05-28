@@ -114,7 +114,7 @@ public class FillSolver {
      * @param currentCol: current column
      * @return: true or false based on whether the puzzle is solved or not
      */
-    public boolean solveTracer(int currentRow, int currentCol) {
+    public boolean fillSolve(int currentRow, int currentCol) {
         //base case
         if(gridSolved()) {
             return true;
@@ -132,7 +132,7 @@ public class FillSolver {
                 grid[nextRow][nextCol] = 0;
                 directions.add(nextSpot);
                 //explore possible paths
-                if(solveTracer(nextRow, nextCol)) {
+                if(fillSolve(nextRow, nextCol)) {
                     return true;
                 }
                 //unmodify grid and list of directions
@@ -143,104 +143,6 @@ public class FillSolver {
         return false;
     }
 
-    /**
-     * Converts a vector of points into a vector of strings indicating directional movement
-     * @param pointsList: vector to convert
-     * @param startRow: starting row
-     * @param startCol: starting column
-     * @return: a vector of strings indicating directional movement
-     */
-    public static Vector<String> pointToDirectionConverter(Vector<Point> pointsList, int startRow, int startCol){
-        Vector<String> returnList = new Vector<String>();
-        //keeps track of the current block
-        Point current = new Point(startRow, startCol);
-        for(int i = 0; i < pointsList.size(); i++) {
-            Point nextPosition = pointsList.elementAt(i);
-            //change in row
-            if(nextPosition.getX() > current.getX()) {
-                returnList.add("Down");
-            }
-            //change in row
-            else if(nextPosition.getX() < current.getX()) {
-                returnList.add("Up");
-            }
-            //change in column
-            else if(nextPosition.getY() > current.getY()) {
-                returnList.add("Right");
-            }
-            //change in column
-            else {
-                returnList.add("Left");
-            }
-            //makes the next position the current position
-            current = nextPosition;
-        }
-        return returnList;
-    }
-
-    /**
-     * Prints out the contents of a 2D array
-     * @param grid: 2D array you want to print
-     * @param startRow: starting row
-     * @param startCol: starting column
-     */
-    public static void printSteps(int[][] grid) {
-        for(int i = 0; i < grid.length; i++) {
-            for(int j = 0; j < grid[0].length; j++) {
-                //formatting (spacing off if number of steps in directions > 99 steps)
-                if(grid[i][j] < 10) {
-                    System.out.print(" ");
-                }
-                System.out.printf("%s", grid[i][j]+ " ");
-            }
-            System.out.println();
-        }
-    }
-
-    /**
-     * Prints arrows
-     * @param grid: the grid to print out
-     */
-    public static void printArrows(String[][] grid) {
-        for(int i = 0; i < grid.length; i++) {
-            for(int j = 0; j < grid[0].length; j++) {
-                if(grid[i][j] == null) {
-                    System.out.printf("%s",  "0 ");
-                } else {
-                    System.out.printf("%s", grid[i][j]+ " ");
-                }
-            }
-            System.out.println();
-        }
-    }
-
-    /**
-     * Uses a list of directions to fill a 2D array with arrows representing directional movement
-     * @param listDirections: a vector of strings representing directional movement
-     * @return: a 2D array of arrows
-     */
-    public String[][] convertToArrows(Vector<String> listDirections) {
-        String[][] gridArrows = new String[numRow][numCol];
-        gridArrows[startRow][startCol] = "X";
-        int currentRow = startRow;
-        int currentCol = startCol;
-        for(int i = 0; i < listDirections.size(); i++) {
-            if(listDirections.elementAt(i).equals("Right")) {
-                gridArrows[currentRow][currentCol + 1] = "→";
-                currentCol++;
-            } else if(listDirections.elementAt(i).equals("Left")) {
-                gridArrows[currentRow][currentCol - 1] = "←";
-                currentCol--;
-            } else if(listDirections.elementAt(i).equals("Up")) {
-                gridArrows[currentRow - 1][currentCol] = "↑";
-                currentRow--;
-            } else {
-                gridArrows[currentRow + 1][currentCol] = "↓";
-                currentRow++;
-            }
-        }
-        return gridArrows;
-    }
     /**
      * Gives user the option to mark spaces
      * @param rowR: selected row

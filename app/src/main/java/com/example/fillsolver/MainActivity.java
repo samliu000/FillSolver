@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         CellAdapter booksAdapter = new CellAdapter(this, testInput);
         for(int i = 0; i < 4; i++) {
             Button hi = (Button)gridView.getChildAt(i);
-            hi.setText("Changed!");
+
         }
     }
 }
