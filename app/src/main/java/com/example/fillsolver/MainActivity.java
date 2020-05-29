@@ -50,20 +50,21 @@ public class MainActivity extends AppCompatActivity {
         solve = new FillSolver(8,6);
 
         // for testing purposes
-        findViewById(R.id.Testing).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for(int cell = 0; cell < 48; cell++) {
-                    Button cellButton = (Button) gridView.getChildAt(cell);
-                    cellButton.setBackgroundColor(Color.parseColor("#ffff00"));
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
+//        findViewById(R.id.Testing).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                for(int cell = 0; cell < 48; cell++) {
+//                    Button cellButton = (Button) gridView.getChildAt(cell);
+//                    cellButton.setBackgroundColor(Color.parseColor("#ffff00"));
+//                    try {
+//                        Thread.sleep(100);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
+
         // START!
         findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
 
