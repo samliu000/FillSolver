@@ -1,5 +1,10 @@
 package com.example.fillsolver;
 
+import android.graphics.Color;
+import android.os.Handler;
+import android.widget.Button;
+import androidx.gridlayout.widget.GridLayout;
+
 import java.util.Scanner;
 import java.util.Vector;
 import java.util.LinkedList;
@@ -15,27 +20,19 @@ public class FillSolver {
     private Vector<Point> directions;
 
     /**
-     * Point Class which represents a cell on the grid
+     * Returns number of columns
+     * @return number of columns
      */
-    private static class Point{
-        public int x;
-        public int y;
+    public int getNumCols() {
+        return numCol;
+    }
 
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-        public String toString() {
-            return "(" + x + "," + y + ")";
-        }
+    /**
+     * Returns the directions
+     * @return vector of points
+     */
+    public Vector<Point> getDirections() {
+        return directions;
     }
 
     /**
@@ -114,7 +111,7 @@ public class FillSolver {
      * @param currentCol: current column
      * @return: true or false based on whether the puzzle is solved or not
      */
-    public boolean fillSolve(int currentRow, int currentCol) {
+    public boolean fillSolve(int currentRow, int currentCol, GridLayout gameGrid) throws InterruptedException {
         //base case
         if(gridSolved()) {
             return true;
@@ -124,17 +121,24 @@ public class FillSolver {
             //gets possible moves for current block
             Queue<Point> possibleMoves = possibleMoves(currentRow, currentCol);
             int size = possibleMoves.size();
+
+            // iterate through possible moves
             for(int i = 0; i < size; i++) {
+
+                // find the next spot to go to
                 Point nextSpot = possibleMoves.poll();
                 int nextRow = nextSpot.getX();
                 int nextCol = nextSpot.getY();
+
                 //modify grid and list of directions
                 grid[nextRow][nextCol] = 0;
                 directions.add(nextSpot);
+
                 //explore possible paths
-                if(fillSolve(nextRow, nextCol)) {
+                if(fillSolve(nextRow, nextCol, gameGrid)) {
                     return true;
                 }
+
                 //unmodify grid and list of directions
                 grid[nextRow][nextCol] = 1;
                 directions.remove(directions.size() - 1);
