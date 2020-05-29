@@ -168,7 +168,7 @@ public class FillSolver {
             grid[rowR][colR] = 1;
 
             //change color
-            cellButton.setBackgroundColor(Color.parseColor("#d6d7d7"));
+            cellButton.setBackgroundResource(android.R.drawable.btn_default);
         } else {
 
             // set state
