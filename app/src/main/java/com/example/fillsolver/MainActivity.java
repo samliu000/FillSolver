@@ -22,6 +22,15 @@ public class MainActivity extends AppCompatActivity {
     // directions
     Vector<Point> directions;
 
+    // setting start state
+    boolean settingStart = false;
+
+    // start state row
+    int startRow = -1;
+
+    // start col
+    int startCol = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,28 +40,29 @@ public class MainActivity extends AppCompatActivity {
         gridView = (GridLayout)findViewById(R.id.GameGrid);
 
         // FillSolver Object
-        solve = new FillSolver(8,6,0,0);
+        solve = new FillSolver(8,6);
 
-        // solve
-        try {
-            solve.fillSolve(0,0, gridView);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        directions = solve.getDirections();
-
-        // logic for when user clicks on answer option
+        // START!
         findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
 
-                for(int i = 2; i < directions.size() + 2; i++) {
+                // solve
+                try {
+                    solve.updateStart(startRow, startCol);
+                    solve.fillSolve(startRow, startCol, gridView);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                directions = solve.getDirections();
+
+                for(int i = 1; i < directions.size() + 1; i++) {
 
                     // get point location
                     Log.i("Where are we", "Current i: " + i);
-                    Point currPoint = directions.get(i - 2);
+                    Point currPoint = directions.get(i - 1);
                     int currRow = currPoint.getX();
                     int currCol = currPoint.getY();
                     int whereInGrid = (currRow * 6) + currCol;
@@ -66,6 +76,44 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+        });
+
+        // user wants to set start
+        findViewById(R.id.setStart).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                settingStart = true;
+            }
+        });
+
+        // all 48 buttons oh boy :(
+        findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(settingStart == true) {
+                    startRow = 0;
+                    startCol = 0;
+                    settingStart = false;
+                }
+                else
+                    solve.removeSpace(0, 0, gridView);
+            }
+        });
+
+        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if(settingStart == true) {
+                    startRow = 0;
+                    startCol = 1;
+                    settingStart = false;
+                }
+                else
+                    solve.removeSpace(0, 1, gridView);
+            }
         });
 
     }

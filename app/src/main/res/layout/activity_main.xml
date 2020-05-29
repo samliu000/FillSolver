@@ -27,19 +27,19 @@
         <Button
             android:id="@+id/button1"
             android:layout_width="65dp"
-            android:text="1"
+            android:text=""
             app:layout_gravity="left|top" />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="65dp"
-            android:text="2"
+            android:text=""
             app:layout_gravity="left|top" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="65dp"
-            android:text="3"
+            android:text=""
             app:layout_gravity="left|top" />
 
         <Button
@@ -343,7 +343,7 @@
         android:textSize="23sp" />
 
     <Button
-        android:id="@+id/setEnd"
+        android:id="@+id/reset"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_alignStart="@id/startButton"
@@ -354,7 +354,7 @@
         android:layout_marginBottom="50dp"
         android:background="#d2cced"
         android:gravity="center"
-        android:text="Set End"
+        android:text="Reset"
         android:textSize="23sp" />
 
 </RelativeLayout>

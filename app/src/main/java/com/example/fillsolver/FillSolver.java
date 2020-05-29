@@ -45,7 +45,7 @@ public class FillSolver {
      * @param startRow: row component of starting position
      * @param startCol: column compoenent of starting position
      */
-    public FillSolver(int row, int col, int startRow, int startCol) {
+    public FillSolver(int row, int col) {
         numRow = row;
         numCol = col;
         this.startRow = startRow;
@@ -60,10 +60,17 @@ public class FillSolver {
                 grid[i][j] = 1;
             }
         }
+    }
+
+    /**
+     * Method to set starting cell in grid to 0
+     * @param startCol column we are starting with
+     * @param startRow row we are starting with
+     */
+    public void updateStart(int startRow, int startCol) {
         //marks starting point
         grid[startRow][startCol] = 0;
     }
-
     /**
      * Used in each recursive step to determine if puzzle has been solved
      * @return: a boolean of whether the grid has been solved (completely filled with 0's)
@@ -152,7 +159,24 @@ public class FillSolver {
      * @param rowR: selected row
      * @param colR: selected column
      */
-    public void removeSpace(int rowR, int colR) {
-        grid[rowR][colR] = 0;
+    public void removeSpace(int rowR, int colR, GridLayout gameGrid) {
+        Button cellButton = (Button) gameGrid.getChildAt((rowR * numCol) + colR);
+
+        if(grid[rowR][colR] == 0) {
+
+            // set state
+            grid[rowR][colR] = 1;
+
+            //change color
+            cellButton.setBackgroundColor(Color.parseColor("#d6d7d7"));
+        } else {
+
+            // set state
+            grid[rowR][colR] = 0;
+
+            // change color
+            cellButton.setBackgroundColor(Color.parseColor("#112A66"));
+        }
+
     }
 }
