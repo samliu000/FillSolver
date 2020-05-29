@@ -6,8 +6,10 @@ import androidx.gridlayout.widget.GridLayout;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.Vector;
 
@@ -71,7 +73,15 @@ public class MainActivity extends AppCompatActivity {
                 // solve
                 try {
                     solve.updateStart(startRow, startCol);
-                    solve.fillSolve(startRow, startCol, gridView);
+
+                    if(!solve.fillSolve(startRow, startCol, gridView)) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "No Solution", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.BOTTOM, 0, 0);
+                        toast.show();
+
+                        return;
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
