@@ -73,18 +73,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // solve
-                    solve.updateStart(startRow, startCol);
+                solve.updateStart(startRow, startCol);
 
-                    if(solve.fillSolve(startRow, startCol)) {
+                if(solve.fillSolve(startRow, startCol)) {
 
-                    } else {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "No Solution", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.BOTTOM, 0, 0);
-                        toast.show();
+                } else {
+                    Toast failureMessage = Toast.makeText(getApplicationContext(),
+                            "No Solution", Toast.LENGTH_SHORT);
+                    failureMessage.setGravity(Gravity.BOTTOM, 0, 0);
+                    failureMessage.show();
 
 
-                    }
+                }
 
                 directions = solve.getDirections();
 
