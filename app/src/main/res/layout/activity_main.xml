@@ -8,19 +8,12 @@
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/GameGrid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:columnWidth="50dp"
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:stretchMode="spacingWidthUniform"
-        android:verticalSpacing="24dp"
         app:columnCount="6"
         app:rowCount="8">
 
@@ -28,8 +21,7 @@
             android:id="@+id/button1"
             android:layout_width="65dp"
             android:text=""
-            app:layout_gravity="left|top"
-            />
+            app:layout_gravity="left|top"/>
 
         <Button
             android:id="@+id/button2"
@@ -63,7 +55,7 @@
 
         <Button
             android:id="@+id/button7"
-            android:layout_width="64dp"
+            android:layout_width="65dp"
             android:text=""
             app:layout_gravity="left|top" />
 
@@ -313,7 +305,6 @@
             android:text=""
             app:layout_gravity="left|top" />
 
-
     </androidx.gridlayout.widget.GridLayout>
 
     <Button
@@ -358,19 +349,5 @@
         android:text="Reset"
         android:textSize="23sp" />
 
-<!--    <Button-->
-<!--        android:id="@+id/Testing"-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_alignStart="@id/startButton"-->
-<!--        android:layout_alignLeft="@id/startButton"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_marginStart="-1dp"-->
-<!--        android:layout_marginLeft="-1dp"-->
-<!--        android:layout_marginBottom="116dp"-->
-<!--        android:background="#d2cced"-->
-<!--        android:gravity="center"-->
-<!--        android:text="Tester"-->
-<!--        android:textSize="23sp" />-->
 
 </RelativeLayout>

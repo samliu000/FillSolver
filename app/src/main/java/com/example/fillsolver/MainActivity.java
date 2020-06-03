@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Vector;
@@ -72,34 +73,30 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // solve
-                try {
                     solve.updateStart(startRow, startCol);
 
-                    if(!solve.fillSolve(startRow, startCol, gridView)) {
+                    if(solve.fillSolve(startRow, startCol)) {
+
+                    } else {
                         Toast toast = Toast.makeText(getApplicationContext(),
                                 "No Solution", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.BOTTOM, 0, 0);
                         toast.show();
 
-                        return;
+
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
                 directions = solve.getDirections();
 
                 for(int i = 1; i < directions.size() + 1; i++) {
 
                     // get point location
-                    Log.i("Where are we", "Current i: " + i);
                     Point currPoint = directions.get(i - 1);
                     int currRow = currPoint.getX();
                     int currCol = currPoint.getY();
                     int whereInGrid = (currRow * 6) + currCol;
 
                     // update text
-                    Log.i("Where in Grid", "Grid Location: " + whereInGrid);
                     Button cellButton = (Button)gridView.getChildAt(whereInGrid);
                     cellButton.setText("" + i);
 
