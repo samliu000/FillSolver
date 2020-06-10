@@ -8,16 +8,18 @@
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/GameGrid"
+        android:gravity = "center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="55dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="50dp"
         app:columnCount="6"
         app:rowCount="8">
 
         <Button
+            android:background="@drawable/button"
             android:id="@+id/button1"
             android:layout_width="65dp"
             android:text=""
