@@ -1,17 +1,17 @@
 package com.example.fillsolver;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.gridlayout.widget.GridLayout;
-
-import android.graphics.Color;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.Vector;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.gridlayout.widget.GridLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     // directions
     Vector<Point> directions;
+
+    // current context
+    Context context;
 
     // setting start state
     boolean settingStart = false;
@@ -40,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
         // GameGrid
         gridView = (GridLayout)findViewById(R.id.GameGrid);
+
+        // initialize context
+        context = this;
 
         for(int cell = 0; cell < 48; cell++) {
             Button cellButton = (Button) gridView.getChildAt(cell);
@@ -65,26 +71,24 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
-        // START!
+        // User wants to START!
         findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
                 // solve
-                try {
-                    solve.updateStart(startRow, startCol);
+                solve.updateStart(startRow, startCol);
 
-                    if(!solve.fillSolve(startRow, startCol, gridView)) {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "No Solution", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.BOTTOM, 0, 0);
-                        toast.show();
+                if(solve.fillSolve(startRow, startCol)) {
 
-                        return;
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                } else {
+                    Toast failureMessage = Toast.makeText(getApplicationContext(),
+                            "No Solution", Toast.LENGTH_SHORT);
+                    failureMessage.setGravity(Gravity.BOTTOM, 0, 0);
+                    failureMessage.show();
+
+
                 }
 
                 // if it works
@@ -93,14 +97,12 @@ public class MainActivity extends AppCompatActivity {
                 for(int i = 1; i < directions.size() + 1; i++) {
 
                     // get point location
-                    Log.i("Where are we", "Current i: " + i);
                     Point currPoint = directions.get(i - 1);
                     int currRow = currPoint.getX();
                     int currCol = currPoint.getY();
                     int whereInGrid = (currRow * 6) + currCol;
 
                     // update text
-                    Log.i("Where in Grid", "Grid Location: " + whereInGrid);
                     Button cellButton = (Button)gridView.getChildAt(whereInGrid);
                     cellButton.setText("" + i);
 
@@ -120,7 +122,8 @@ public class MainActivity extends AppCompatActivity {
                     cellButton.setBackgroundResource(android.R.drawable.btn_default);
                     cellButton.setText("");
                 }
-
+                Drawable d = getResources().getDrawable(R.drawable.og_button);
+                ((Button)findViewById(R.id.setStart)).setBackground(d);
                 solve = new FillSolver(8,6);
 
                 startRow = 0;
@@ -136,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 settingStart = true;
-                ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#ffff00"));
+                Drawable d = getResources().getDrawable(R.drawable.start_button);
+                ((Button) findViewById(R.id.setStart)).setBackground(d);
             }
         });
 
@@ -145,16 +149,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(settingStart == true) {
-                    // reset previous start
+                    //reset previous start
                     ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 0;
                     startCol = 0;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(0)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(0)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
-                else     // we are not setting start
-                    solve.removeSpace(0, 0, gridView);
+                else    // we are not setting start
+                    solve.removeSpace(0, 0, gridView, context);
             }
         });
 
@@ -162,16 +168,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(settingStart == true) {
-                    // reset previous start
+                    //reset previous start
                     ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 0;
                     startCol = 1;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(1)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(1)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
-                else     // we are not setting start
-                    solve.removeSpace(0, 1, gridView);
+                else    // we are not setting start
+                    solve.removeSpace(0, 1, gridView, context);
             }
         });
 
@@ -184,11 +192,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 0;
                     startCol = 2;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(2)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(2)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(0, 2, gridView);
+                    solve.removeSpace(0, 2, gridView, context);
             }
         });
 
@@ -201,11 +211,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 0;
                     startCol = 3;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(3)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(3)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(0, 3, gridView);
+                    solve.removeSpace(0, 3, gridView, context);
             }
         });
 
@@ -218,11 +230,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 0;
                     startCol = 4;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(4)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(4)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(0, 4, gridView);
+                    solve.removeSpace(0, 4, gridView, context);
             }
         });
 
@@ -235,11 +249,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 0;
                     startCol = 5;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(5)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(5)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(0, 5, gridView);
+                    solve.removeSpace(0, 5, gridView, context);
             }
         });
 
@@ -252,11 +268,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 1;
                     startCol = 0;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(6)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(6)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(1, 0, gridView);
+                    solve.removeSpace(1, 0, gridView, context);
             }
         });
 
@@ -269,11 +287,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 1;
                     startCol = 1;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(7)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(7)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(1, 1, gridView);
+                    solve.removeSpace(1, 1, gridView, context);
             }
         });
 
@@ -286,11 +306,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 1;
                     startCol = 2;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(8)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(8)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(1, 2, gridView);
+                    solve.removeSpace(1, 2, gridView, context);
             }
         });
 
@@ -303,11 +325,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 1;
                     startCol = 3;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(9)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(9)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(1, 3, gridView);
+                    solve.removeSpace(1, 3, gridView, context);
             }
         });
 
@@ -320,11 +344,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 1;
                     startCol = 4;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(10)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(10)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(1, 4, gridView);
+                    solve.removeSpace(1, 4, gridView, context);
             }
         });
 
@@ -337,11 +363,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 1;
                     startCol = 5;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(11)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(11)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(1, 5, gridView);
+                    solve.removeSpace(1, 5, gridView, context);
             }
         });
 
@@ -354,11 +382,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 2;
                     startCol = 0;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(12)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(12)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(2, 0, gridView);
+                    solve.removeSpace(2, 0, gridView, context);
             }
         });
 
@@ -371,11 +401,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 2;
                     startCol = 1;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(13)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(13)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(2, 1, gridView);
+                    solve.removeSpace(2, 1, gridView, context);
             }
         });
 
@@ -388,11 +420,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 2;
                     startCol = 2;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(14)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(14)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(2, 2, gridView);
+                    solve.removeSpace(2, 2, gridView, context);
             }
         });
 
@@ -405,11 +439,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 2;
                     startCol = 3;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(15)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(15)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(2, 3, gridView);
+                    solve.removeSpace(2, 3, gridView, context);
             }
         });
 
@@ -422,11 +458,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 2;
                     startCol = 4;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(16)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(16)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(2, 4, gridView);
+                    solve.removeSpace(2, 4, gridView, context);
             }
         });
 
@@ -439,11 +477,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 2;
                     startCol = 5;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(17)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(17)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(2, 5, gridView);
+                    solve.removeSpace(2, 5, gridView, context);
             }
         });
 
@@ -456,11 +496,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 3;
                     startCol = 0;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(18)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(18)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(3, 0, gridView);
+                    solve.removeSpace(3, 0, gridView, context);
             }
         });
 
@@ -473,11 +515,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 3;
                     startCol = 1;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(19)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(19)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(3, 1, gridView);
+                    solve.removeSpace(3, 1, gridView, context);
             }
         });
 
@@ -490,11 +534,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 3;
                     startCol = 2;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(20)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(20)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(3, 2, gridView);
+                    solve.removeSpace(3, 2, gridView, context);
             }
         });
 
@@ -507,11 +553,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 3;
                     startCol = 3;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(21)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(21)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(3, 3, gridView);
+                    solve.removeSpace(3, 3, gridView, context);
             }
         });
 
@@ -524,11 +572,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 3;
                     startCol = 4;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(22)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(22)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(3, 4, gridView);
+                    solve.removeSpace(3, 4, gridView, context);
             }
         });
 
@@ -541,11 +591,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 3;
                     startCol = 5;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(23)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(23)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(3, 5, gridView);
+                    solve.removeSpace(3, 5, gridView, context);
             }
         });
 
@@ -558,11 +610,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 4;
                     startCol = 0;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(24)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(24)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(4, 0, gridView);
+                    solve.removeSpace(4, 0, gridView, context);
             }
         });
 
@@ -575,11 +629,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 4;
                     startCol = 1;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(25)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(25)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(4, 1, gridView);
+                    solve.removeSpace(4, 1, gridView, context);
             }
         });
 
@@ -592,11 +648,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 4;
                     startCol = 2;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(26)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(26)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(4, 2, gridView);
+                    solve.removeSpace(4, 2, gridView, context);
             }
         });
 
@@ -609,11 +667,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 4;
                     startCol = 3;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(27)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(27)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(4, 3, gridView);
+                    solve.removeSpace(4, 3, gridView, context);
             }
         });
 
@@ -626,11 +686,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 4;
                     startCol = 4;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(28)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(28)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(4, 4, gridView);
+                    solve.removeSpace(4, 4, gridView, context);
             }
         });
 
@@ -643,11 +705,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 4;
                     startCol = 5;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(29)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(29)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(4, 5, gridView);
+                    solve.removeSpace(4, 5, gridView, context);
             }
         });
 
@@ -660,11 +724,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 5;
                     startCol = 0;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(30)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(30)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(5, 0, gridView);
+                    solve.removeSpace(5, 0, gridView, context);
             }
         });
 
@@ -677,11 +743,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 5;
                     startCol = 1;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(31)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(31)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(5, 1, gridView);
+                    solve.removeSpace(5, 1, gridView, context);
             }
         });
 
@@ -694,11 +762,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 5;
                     startCol = 2;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(32)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(32)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(5, 2, gridView);
+                    solve.removeSpace(5, 2, gridView, context);
             }
         });
 
@@ -711,11 +781,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 5;
                     startCol = 3;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(33)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(33)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(5, 3, gridView);
+                    solve.removeSpace(5, 3, gridView, context);
             }
         });
 
@@ -728,11 +800,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 5;
                     startCol = 4;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(34)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(34)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(5, 4, gridView);
+                    solve.removeSpace(5, 4, gridView, context);
             }
         });
 
@@ -745,11 +819,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 5;
                     startCol = 5;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(35)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(35)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(5, 5, gridView);
+                    solve.removeSpace(5, 5, gridView, context);
             }
         });
 
@@ -762,11 +838,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 6;
                     startCol = 0;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(36)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(36)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(6, 0, gridView);
+                    solve.removeSpace(6, 0, gridView, context);
             }
         });
 
@@ -779,11 +857,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 6;
                     startCol = 1;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(37)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(37)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(6, 1, gridView);
+                    solve.removeSpace(6, 1, gridView, context);
             }
         });
 
@@ -796,11 +876,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 6;
                     startCol = 2;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(38)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(38)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(6, 2, gridView);
+                    solve.removeSpace(6, 2, gridView, context);
             }
         });
 
@@ -813,11 +895,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 6;
                     startCol = 3;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(39)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(39)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(6, 3, gridView);
+                    solve.removeSpace(6, 3, gridView, context);
             }
         });
 
@@ -830,11 +914,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 6;
                     startCol = 4;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(40)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(40)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(6, 4, gridView);
+                    solve.removeSpace(6, 4, gridView, context);
             }
         });
 
@@ -847,11 +933,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 6;
                     startCol = 5;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(41)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(41)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(6, 5, gridView);
+                    solve.removeSpace(6, 5, gridView, context);
             }
         });
 
@@ -864,11 +952,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 7;
                     startCol = 0;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(42)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(42)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(7, 0, gridView);
+                    solve.removeSpace(7, 0, gridView, context);
             }
         });
 
@@ -881,11 +971,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 7;
                     startCol = 1;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(43)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(43)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(7, 1, gridView);
+                    solve.removeSpace(7, 1, gridView, context);
             }
         });
 
@@ -898,11 +990,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 7;
                     startCol = 2;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(44)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(44)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(7, 2, gridView);
+                    solve.removeSpace(7, 2, gridView, context);
             }
         });
 
@@ -915,11 +1009,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 7;
                     startCol = 3;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(45)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(45)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(7, 3, gridView);
+                    solve.removeSpace(7, 3, gridView, context);
             }
         });
 
@@ -932,11 +1028,13 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 7;
                     startCol = 4;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(46)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(46)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(7, 4, gridView);
+                    solve.removeSpace(7, 4, gridView, context);
             }
         });
 
@@ -949,13 +1047,18 @@ public class MainActivity extends AppCompatActivity {
                     startRow = 7;
                     startCol = 5;
                     settingStart = false;
-                    ((Button)gridView.getChildAt(47)).setBackgroundColor(Color.parseColor("#78FF00"));
-                    ((Button) findViewById(R.id.setStart)).setBackgroundColor(Color.parseColor("#d2cced"));
+                    Drawable d = getResources().getDrawable(R.drawable.set_start_color);
+                    ((Button)gridView.getChildAt(47)).setBackground(d);
+                    Drawable a = getResources().getDrawable(R.drawable.og_button);
+                    ((Button)findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
-                    solve.removeSpace(7, 5, gridView);
+                    solve.removeSpace(7, 5, gridView, context);
             }
         });
+
+
+
 
     }
 

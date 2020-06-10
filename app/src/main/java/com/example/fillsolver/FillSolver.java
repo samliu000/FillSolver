@@ -1,15 +1,14 @@
 package com.example.fillsolver;
 
-import android.graphics.Color;
-import android.os.Handler;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.widget.Button;
-import androidx.gridlayout.widget.GridLayout;
 
-import java.util.Scanner;
-import java.util.Vector;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.lang.Math;
+import java.util.Vector;
+
+import androidx.gridlayout.widget.GridLayout;
 
 public class FillSolver {
     private int[][] grid;
@@ -18,6 +17,7 @@ public class FillSolver {
     private int startRow;
     private int startCol;
     private Vector<Point> directions;
+    private int visits;
 
     /**
      * Returns number of columns
@@ -50,6 +50,7 @@ public class FillSolver {
         numCol = col;
         this.startRow = startRow;
         this.startCol = startCol;
+        visits = 0;
         //construct grid
         grid = new int[row][col];
         //a list of points that represent the solution to the tracer map
@@ -112,22 +113,35 @@ public class FillSolver {
         return directionList;
     }
 
+    public int getVisits() {
+        return visits;
+    }
     /**
      * Uses recursive backtracking to explore all possible paths
      * @param currentRow: current row
      * @param currentCol: current column
      * @return: true or false based on whether the puzzle is solved or not
      */
-    public boolean fillSolve(int currentRow, int currentCol, GridLayout gameGrid) throws InterruptedException {
+    public boolean fillSolve(int currentRow, int currentCol) {
+        visits++;
+        if(visits > 6000000) {
+            return false;
+        }
+//        Log.i("Num Visits", "Num visits: "+ visits);
+//        Log.i("Where in Grid", "Num: " + ((currentRow*numCol) + currentCol) );
+
         //base case
         if(gridSolved()) {
             return true;
         }
         //recursive case
         else {
+
             //gets possible moves for current block
             Queue<Point> possibleMoves = possibleMoves(currentRow, currentCol);
             int size = possibleMoves.size();
+
+//            Log.i("PossibleMoves", possibleMoves.toString());
 
             // iterate through possible moves
             for(int i = 0; i < size; i++) {
@@ -140,15 +154,15 @@ public class FillSolver {
                 //modify grid and list of directions
                 grid[nextRow][nextCol] = 0;
                 directions.add(nextSpot);
-
                 //explore possible paths
-                if(fillSolve(nextRow, nextCol, gameGrid)) {
+                if(fillSolve(nextRow, nextCol)) {
                     return true;
                 }
 
                 //unmodify grid and list of directions
                 grid[nextRow][nextCol] = 1;
                 directions.remove(directions.size() - 1);
+
             }
         }
         return false;
@@ -159,7 +173,7 @@ public class FillSolver {
      * @param rowR: selected row
      * @param colR: selected column
      */
-    public void removeSpace(int rowR, int colR, GridLayout gameGrid) {
+    public void removeSpace(int rowR, int colR, GridLayout gameGrid, Context context) {
         Button cellButton = (Button) gameGrid.getChildAt((rowR * numCol) + colR);
 
         if(grid[rowR][colR] == 0) {
@@ -175,7 +189,9 @@ public class FillSolver {
             grid[rowR][colR] = 0;
 
             // change color
-            cellButton.setBackgroundColor(Color.parseColor("#112A66"));
+            Drawable d = context.getResources().getDrawable(R.drawable.button);
+            cellButton.setBackground(d);
+            // cellButton.setBackgroundResource( --Drawable--);
         }
 
     }
