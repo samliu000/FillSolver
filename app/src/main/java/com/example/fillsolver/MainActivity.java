@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                // if it works
                 directions = solve.getDirections();
 
                 for(int i = 1; i < directions.size() + 1; i++) {
