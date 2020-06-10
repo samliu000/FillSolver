@@ -8,12 +8,13 @@
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/GameGrid"
+        android:gravity = "center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="55dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="50dp"
         app:columnCount="6"
         app:rowCount="8">
 
@@ -315,10 +316,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"
-        android:background="#d2cced"
+        android:background="@color/startBlue"
         android:gravity="center"
         android:text="Start"
-        android:textSize="23sp" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/setStart"
@@ -330,10 +331,10 @@
         android:layout_marginStart="-129dp"
         android:layout_marginRight="129dp"
         android:layout_marginBottom="50dp"
-        android:background="#d2cced"
+        android:background="@color/startBlue"
         android:gravity="center"
         android:text="Set Start"
-        android:textSize="23sp" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/reset"
@@ -345,10 +346,10 @@
         android:layout_marginStart="125dp"
         android:layout_marginLeft="125dp"
         android:layout_marginBottom="50dp"
-        android:background="#d2cced"
+        android:background="@color/startBlue"
         android:gravity="center"
         android:text="Reset"
-        android:textSize="23sp" />
+        android:textSize="20sp" />
 
 
 </RelativeLayout>
