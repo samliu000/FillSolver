@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        // user wants to set start
+        // user wants to set start hi
         findViewById(R.id.setStart).setOnClickListener(new View.OnClickListener() {
 
             @Override
