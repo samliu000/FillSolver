@@ -1,16 +1,14 @@
 package com.example.fillsolver;
 
-import android.graphics.Color;
-import android.os.Handler;
-import android.util.Log;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.widget.Button;
-import androidx.gridlayout.widget.GridLayout;
 
-import java.util.Scanner;
-import java.util.Vector;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.lang.Math;
+import java.util.Vector;
+
+import androidx.gridlayout.widget.GridLayout;
 
 public class FillSolver {
     private int[][] grid;
@@ -175,7 +173,7 @@ public class FillSolver {
      * @param rowR: selected row
      * @param colR: selected column
      */
-    public void removeSpace(int rowR, int colR, GridLayout gameGrid) {
+    public void removeSpace(int rowR, int colR, GridLayout gameGrid, Context context) {
         Button cellButton = (Button) gameGrid.getChildAt((rowR * numCol) + colR);
 
         if(grid[rowR][colR] == 0) {
@@ -191,7 +189,8 @@ public class FillSolver {
             grid[rowR][colR] = 0;
 
             // change color
-            cellButton.setBackgroundColor(Color.parseColor("#112A66"));
+            Drawable d = context.getResources().getDrawable(R.drawable.button);
+            cellButton.setBackground(d);
             // cellButton.setBackgroundResource( --Drawable--);
         }
 
