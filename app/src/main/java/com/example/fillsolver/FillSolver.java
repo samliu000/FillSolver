@@ -1,5 +1,6 @@
 package com.example.fillsolver;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
