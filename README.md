@@ -9,7 +9,7 @@ The program uses a Recursive Backtracking.
 ### App Walk-though
 Example Game Board         |  Using Program
 :-------------------------:|:-------------------------:
-<img src="https://github.com/samliu000/FillSolver/blob/master/ExampleGameBoard.PNG" width=250><br>  |  <img src="https://github.com/samliu000/FillSolver/blob/master/Demo.gif" width=250><br>
+<img src="https://github.com/samliu000/FillSolver/blob/master/ReadMeAssets/ExampleGameBoard.PNG" width=250><br>  |  <img src="https://github.com/samliu000/FillSolver/blob/master/ReadMeAssets/Demo.gif" width=250><br>
 
 ## How To Use The App
 **Set A Starting Point**
@@ -34,4 +34,4 @@ Once the user presses the start button, the program will assign each cell in the
 
 **Example**
 
-<img src="https://github.com/samliu000/FillSolver/blob/master/answerExampleWithHighlight.png" width=250><br>
+<img src="https://github.com/samliu000/FillSolver/blob/master/ReadMeAssets/answerExampleWithHighlight.png" width=250><br>
