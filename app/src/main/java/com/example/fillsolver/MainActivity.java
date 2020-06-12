@@ -3,6 +3,7 @@ package com.example.fillsolver;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     // directions
     Vector<Point> directions;
 
+    // timer
+    CountDownTimer countDownTimer;
+
     // current context
     Context context;
 
@@ -35,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
 
     // start col
     int startCol = 0;
+
+    private void startTimer() {
+        countDownTimer.cancel();
+        countDownTimer.start();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +80,30 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+        countDownTimer = new CountDownTimer(4800, 100) {
+            int i = 1;
+            public void onTick(long millisUntilFinished) {
+                if(i>directions.size()){
+                    return;
+                }
+                Point currPoint = directions.get(i - 1);
+                int currRow = currPoint.getX();
+                int currCol = currPoint.getY();
+                int whereInGrid = (currRow * 6) + currCol;
+
+                Button cellButton = (Button)gridView.getChildAt(whereInGrid);
+                cellButton.setText("" + i);
+                Drawable d = getResources().getDrawable(R.drawable.final_background);
+                cellButton.setBackground(d);
+                i++;
+            }
+
+            public void onFinish() {
+                i=1;
+            }
+        };
+
+
         // User wants to START!
         findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
 
@@ -104,13 +137,15 @@ public class MainActivity extends AppCompatActivity {
 
                     // update text
                     Button cellButton = (Button)gridView.getChildAt(whereInGrid);
-                    cellButton.setText("" + i);
-
                 }
+                startTimer();
 
             }
 
         });
+
+
+
 
         // reset!
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
@@ -128,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
                 startRow = 0;
                 startCol = 0;
+                countDownTimer.cancel();
             }
 
 
@@ -143,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
                 ((Button) findViewById(R.id.setStart)).setBackground(d);
             }
         });
+
 
         // all 48 buttons oh boy :(
         findViewById(R.id.button1).setOnClickListener(new View.OnClickListener() {
