@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.Vector;
@@ -55,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
         // initialize context
         context = this;
+
+        ImageView reloadButton = (ImageView)findViewById(R.id.reload);
+        reloadButton.setVisibility(View.INVISIBLE);
 
         for(int cell = 0; cell < 48; cell++) {
             Button cellButton = (Button) gridView.getChildAt(cell);
@@ -140,11 +144,41 @@ public class MainActivity extends AppCompatActivity {
                 }
                 startTimer();
 
+                ImageView reloadButton = (ImageView)findViewById(R.id.reload);
+                reloadButton.setVisibility(View.VISIBLE);
+
             }
 
         });
 
+        // replay the solution
+        findViewById(R.id.reload).setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                countDownTimer.cancel();
+                countDownTimer.onFinish();
+
+                for(int cell = 0; cell < 48; cell++) {
+
+                    // do not want to paint over the starting point
+                    int currStart = (startRow * 6) + startCol;
+                    if(cell == currStart) {
+                        continue;
+                    }
+
+                    // paint over all buttons (other than start)
+                    Button cellButton = (Button) gridView.getChildAt(cell);
+                    cellButton.setBackgroundResource(android.R.drawable.btn_default);
+                    cellButton.setText("");
+                }
+
+                // start the solution animation
+                startTimer();
+            }
+
+
+        });
 
 
         // reset!
@@ -152,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
                 for(int cell = 0; cell < 48; cell++) {
                     Button cellButton = (Button) gridView.getChildAt(cell);
                     cellButton.setBackgroundResource(android.R.drawable.btn_default);
@@ -163,7 +198,13 @@ public class MainActivity extends AppCompatActivity {
 
                 startRow = 0;
                 startCol = 0;
+
+                // reset timer
                 countDownTimer.cancel();
+                countDownTimer.onFinish();
+
+                ImageView reloadButton = (ImageView)findViewById(R.id.reload);
+                reloadButton.setVisibility(View.INVISIBLE);
             }
 
 
