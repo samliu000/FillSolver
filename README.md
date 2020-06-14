@@ -30,7 +30,9 @@ Example Game Board         |  Using Program
    - Removed Cells will be unremoved
    
 ## Output
-Once the user presses the start button, the program will assign each cell in the grid a number representing the order in which the cells should be filled up.
+Once the user presses the start button, the program will assign each cell in the grid a number representing the order in which the cells should be filled up. 
+
+It will also highlight the solution path one cell at a time (every 100ms). If you blink and miss that animation, you can press the replay button (right above the "Start" button) to restart the animation.
 
 **Example**
 
