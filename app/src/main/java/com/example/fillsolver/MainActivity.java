@@ -1,6 +1,7 @@
 package com.example.fillsolver;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -36,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
     boolean settingStart = false;
 
     // start state row
-    int startRow = 0;
+    int startRow = -1;
 
     // start col
-    int startCol = 0;
+    int startCol = -1;
 
     private void startTimer() {
         countDownTimer.cancel();
@@ -114,6 +115,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                // starting position hasn't been set
+                if(startRow < 0 || startCol < 0) {
+                    Toast failureMessage = Toast.makeText(getApplicationContext(),
+                            "Please Set Starting Position", Toast.LENGTH_SHORT);
+                    failureMessage.setGravity(Gravity.BOTTOM, 0, 0);
+                    failureMessage.show();
+                    return;
+                }
+
                 // solve
                 solve.updateStart(startRow, startCol);
 
@@ -125,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     failureMessage.setGravity(Gravity.BOTTOM, 0, 0);
                     failureMessage.show();
 
-
+                    return;
                 }
 
                 // if it works
@@ -177,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
                 startTimer();
             }
 
-
         });
 
 
@@ -196,8 +205,8 @@ public class MainActivity extends AppCompatActivity {
                 ((Button)findViewById(R.id.setStart)).setBackground(d);
                 solve = new FillSolver(8,6);
 
-                startRow = 0;
-                startCol = 0;
+                startRow = -1;
+                startCol = -1;
 
                 // reset timer
                 countDownTimer.cancel();
@@ -228,7 +237,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+
                     startRow = 0;
                     startCol = 0;
                     settingStart = false;
@@ -247,14 +258,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 0;
                     startCol = 1;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(1)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(0, 1, gridView, context);
@@ -266,14 +278,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 0;
                     startCol = 2;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(2)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(0, 2, gridView, context);
@@ -285,14 +298,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 0;
                     startCol = 3;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(3)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(0, 3, gridView, context);
@@ -304,14 +318,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 0;
                     startCol = 4;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(4)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(0, 4, gridView, context);
@@ -323,14 +338,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 0;
                     startCol = 5;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(5)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(0, 5, gridView, context);
@@ -342,14 +358,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 1;
                     startCol = 0;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(6)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(1, 0, gridView, context);
@@ -361,14 +378,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 1;
                     startCol = 1;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(7)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(1, 1, gridView, context);
@@ -380,14 +398,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 1;
                     startCol = 2;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(8)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(1, 2, gridView, context);
@@ -399,14 +418,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 1;
                     startCol = 3;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(9)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(1, 3, gridView, context);
@@ -418,14 +438,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 1;
                     startCol = 4;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(10)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(1, 4, gridView, context);
@@ -437,14 +458,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 1;
                     startCol = 5;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(11)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(1, 5, gridView, context);
@@ -456,14 +478,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 2;
                     startCol = 0;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(12)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(2, 0, gridView, context);
@@ -475,14 +498,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 2;
                     startCol = 1;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(13)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(2, 1, gridView, context);
@@ -494,14 +518,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 2;
                     startCol = 2;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(14)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(2, 2, gridView, context);
@@ -513,14 +538,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 2;
                     startCol = 3;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(15)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(2, 3, gridView, context);
@@ -532,14 +558,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 2;
                     startCol = 4;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(16)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(2, 4, gridView, context);
@@ -551,14 +578,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 2;
                     startCol = 5;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(17)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(2, 5, gridView, context);
@@ -570,14 +598,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 3;
                     startCol = 0;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(18)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(3, 0, gridView, context);
@@ -589,14 +618,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 3;
                     startCol = 1;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(19)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(3, 1, gridView, context);
@@ -608,14 +638,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 3;
                     startCol = 2;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(20)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(3, 2, gridView, context);
@@ -627,14 +658,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 3;
                     startCol = 3;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(21)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(3, 3, gridView, context);
@@ -646,14 +678,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 3;
                     startCol = 4;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(22)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(3, 4, gridView, context);
@@ -665,14 +698,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 3;
                     startCol = 5;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(23)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(3, 5, gridView, context);
@@ -684,14 +718,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 4;
                     startCol = 0;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(24)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(4, 0, gridView, context);
@@ -703,14 +738,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 4;
                     startCol = 1;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(25)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(4, 1, gridView, context);
@@ -722,14 +758,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 4;
                     startCol = 2;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(26)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(4, 2, gridView, context);
@@ -741,14 +778,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 4;
                     startCol = 3;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(27)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(4, 3, gridView, context);
@@ -760,14 +798,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 4;
                     startCol = 4;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(28)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(4, 4, gridView, context);
@@ -779,14 +818,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 4;
                     startCol = 5;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(29)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(4, 5, gridView, context);
@@ -798,14 +838,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 5;
                     startCol = 0;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(30)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(5, 0, gridView, context);
@@ -817,14 +858,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 5;
                     startCol = 1;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(31)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(5, 1, gridView, context);
@@ -836,14 +878,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 5;
                     startCol = 2;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(32)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(5, 2, gridView, context);
@@ -855,14 +898,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 5;
                     startCol = 3;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(33)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(5, 3, gridView, context);
@@ -874,14 +918,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 5;
                     startCol = 4;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(34)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(5, 4, gridView, context);
@@ -893,14 +938,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 5;
                     startCol = 5;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(35)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(5, 5, gridView, context);
@@ -912,14 +958,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 6;
                     startCol = 0;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(36)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(6, 0, gridView, context);
@@ -931,14 +978,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 6;
                     startCol = 1;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(37)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(6, 1, gridView, context);
@@ -950,14 +998,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 6;
                     startCol = 2;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(38)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(6, 2, gridView, context);
@@ -969,14 +1018,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 6;
                     startCol = 3;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(39)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(6, 3, gridView, context);
@@ -988,14 +1038,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 6;
                     startCol = 4;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(40)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(6, 4, gridView, context);
@@ -1007,14 +1058,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 6;
                     startCol = 5;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(41)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(6, 5, gridView, context);
@@ -1026,14 +1078,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 7;
                     startCol = 0;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(42)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(7, 0, gridView, context);
@@ -1045,14 +1098,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 7;
                     startCol = 1;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(43)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(7, 1, gridView, context);
@@ -1064,14 +1118,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 7;
                     startCol = 2;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(44)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(7, 2, gridView, context);
@@ -1083,14 +1138,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 7;
                     startCol = 3;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(45)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(7, 3, gridView, context);
@@ -1102,14 +1158,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 7;
                     startCol = 4;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(46)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(7, 4, gridView, context);
@@ -1121,22 +1178,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(settingStart == true) {
                     //reset previous start
-                    ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
+                    if(startRow >=0 && startCol >= 0)
+                        ((Button)gridView.getChildAt((startRow * 6) + startCol)).setBackgroundResource(android.R.drawable.btn_default);
                     startRow = 7;
                     startCol = 5;
                     settingStart = false;
                     Drawable d = getResources().getDrawable(R.drawable.set_start_color);
                     ((Button)gridView.getChildAt(47)).setBackground(d);
                     Drawable a = getResources().getDrawable(R.drawable.og_button);
-                    ((Button)findViewById(R.id.setStart)).setBackground(a);
+                    ((Button) findViewById(R.id.setStart)).setBackground(a);
                 }
                 else    // we are not setting start
                     solve.removeSpace(7, 5, gridView, context);
             }
         });
-
-
-
 
     }
 
