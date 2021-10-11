@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     // directions
     Vector<Point> directions;
 
-    // timer
+    // timer that displays the solution to the user. On each tick of the clock, it will reveal the next step in the solution
     CountDownTimer countDownTimer;
 
     // current context
@@ -42,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
     // start col
     int startCol = -1;
 
+    /**
+     * Method for starting the solution display. On each tick of the timer, the next step of the solution will be revealed
+     */
     private void startTimer() {
         countDownTimer.cancel();
         countDownTimer.start();
@@ -52,39 +55,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // GameGrid
+        // initializations
         gridView = (GridLayout)findViewById(R.id.GameGrid);
-
-        // initialize context
         context = this;
-
         ImageView reloadButton = (ImageView)findViewById(R.id.reload);
         reloadButton.setVisibility(View.INVISIBLE);
 
+        // set the background of all backgrounds to the default color
         for(int cell = 0; cell < 48; cell++) {
             Button cellButton = (Button) gridView.getChildAt(cell);
             cellButton.setBackgroundResource(android.R.drawable.btn_default);
         }
 
-        // FillSolver Object
+        // FillSolver Object that will the puzzle solving logic
         solve = new FillSolver(8,6);
 
-        // for testing purposes
-//        findViewById(R.id.Testing).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                for(int cell = 0; cell < 48; cell++) {
-//                    Button cellButton = (Button) gridView.getChildAt(cell);
-//                    cellButton.setBackgroundColor(Color.parseColor("#ffff00"));
-//                    try {
-//                        Thread.sleep(100);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        });
-
+        // initilization of timer that tells the timer to reveal the next step of the solution on each tick of the timer
         countDownTimer = new CountDownTimer(4800, 100) {
             int i = 1;
             public void onTick(long millisUntilFinished) {
@@ -161,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        // replay the solution
+        // logic for replaying the solution
         findViewById(R.id.reload).setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -169,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 countDownTimer.cancel();
                 countDownTimer.onFinish();
 
+                // refresh all the cells back to their default state
                 for(int cell = 0; cell < 48; cell++) {
 
                     // do not want to paint over the starting point
@@ -195,7 +182,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
+                
+                // set all cells back to default sstate 
                 for(int cell = 0; cell < 48; cell++) {
                     Button cellButton = (Button) gridView.getChildAt(cell);
                     cellButton.setBackgroundResource(android.R.drawable.btn_default);
@@ -219,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        // user wants to set start
+        // user wants to set the starting position
         findViewById(R.id.setStart).setOnClickListener(new View.OnClickListener() {
 
             @Override

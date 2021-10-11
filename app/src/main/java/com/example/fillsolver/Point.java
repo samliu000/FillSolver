@@ -1,7 +1,7 @@
 package com.example.fillsolver;
 
 /**
- * Point class to represent cells
+ * Point class to represent an individual cell in a grid
  */
 public class Point {
 
