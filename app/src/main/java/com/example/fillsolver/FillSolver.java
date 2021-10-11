@@ -11,12 +11,22 @@ import java.util.Vector;
 import androidx.gridlayout.widget.GridLayout;
 
 public class FillSolver {
+
+    // grid representing the game board
     private int[][] grid;
+
+    // the number of columns and rows
     private int numRow;
     private int numCol;
+
+    // the starting position of the gameboard
     private int startRow;
     private int startCol;
+
+    // an array containing a sequence of points representing the steps of the solution
     private Vector<Point> directions;
+
+    // a debug variable to keep track of how many iterations we have gone through
     private int visits;
 
     /**
@@ -51,10 +61,13 @@ public class FillSolver {
         this.startRow = startRow;
         this.startCol = startCol;
         visits = 0;
+
         //construct grid
         grid = new int[row][col];
+
         //a list of points that represent the solution to the tracer map
         directions = new Vector<Point>();
+
         //fills map with 1's, indicating untraveled paths. Traveled paths will be marked with 0
         for(int i = 0; i < row; i++) {
             for(int j = 0; j < col; j++) {
@@ -123,25 +136,20 @@ public class FillSolver {
      * @return: true or false based on whether the puzzle is solved or not
      */
     public boolean fillSolve(int currentRow, int currentCol) {
+        
+        // increment our debug variable
         visits++;
-        if(visits > 6000000) {
-            return false;
-        }
-//        Log.i("Num Visits", "Num visits: "+ visits);
-//        Log.i("Where in Grid", "Num: " + ((currentRow*numCol) + currentCol) );
 
-        //base case
+        // base case: yay we have a solution!
         if(gridSolved()) {
             return true;
         }
-        //recursive case
+        // recursive case: we still have work to do :(
         else {
 
             //gets possible moves for current block
             Queue<Point> possibleMoves = possibleMoves(currentRow, currentCol);
             int size = possibleMoves.size();
-
-//            Log.i("PossibleMoves", possibleMoves.toString());
 
             // iterate through possible moves
             for(int i = 0; i < size; i++) {
@@ -176,6 +184,7 @@ public class FillSolver {
     public void removeSpace(int rowR, int colR, GridLayout gameGrid, Context context) {
         Button cellButton = (Button) gameGrid.getChildAt((rowR * numCol) + colR);
 
+        // if the cell is marked, reset it; otherwise, mark it as an obstacle
         if(grid[rowR][colR] == 0) {
 
             // set state
@@ -183,7 +192,8 @@ public class FillSolver {
 
             //change color
             cellButton.setBackgroundResource(android.R.drawable.btn_default);
-        } else {
+        } 
+        else {
 
             // set state
             grid[rowR][colR] = 0;
@@ -191,8 +201,6 @@ public class FillSolver {
             // change color
             Drawable d = context.getResources().getDrawable(R.drawable.button);
             cellButton.setBackground(d);
-            // cellButton.setBackgroundResource( --Drawable--);
         }
-
     }
 }
