@@ -49,3 +49,9 @@ It will also highlight the solution path one cell at a time (every 100ms). If yo
 **Example**
 
 <img src="https://github.com/samliu000/FillSolver/blob/master/ReadMeAssets/answerExampleWithHighlight.png" width=250><br>
+
+## Next Steps
+- Change the grid layout into a recyclerview and attach onclick listener inside of recyclerview adapter
+- Modify FillSolver grid initialization so it treats 0s as untouched instead of 1s as untouched to get rid of O(xy) initialization where x is numRows and y is numCols
+- Look into possible pruning in recursive backtracking (though this might not be possible)
+- Have col and row be dynamic (user can change it) This will be so much easier to implement if I switch from grid layout to recyclerview
