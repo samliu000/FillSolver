@@ -1,6 +1,6 @@
 ## Fill Solver - Solver for AppStore game *Fill One-Line Puzzle Game*
 ### Special Thanks to Kimberly Kao ###
-Thanks to Kimberly Kao (Github: kimberly-kao) for her help in VASTLY improving the UI of my android app. 
+Thanks to Kimberly Kao (Github: kimberly-kao) for her help in greatly improving the UI of my android app. 
 Her contributions are as follows
    - Create solution animation (fills in solution path one by one)
    - Created Drawables to set as button backgrounds
